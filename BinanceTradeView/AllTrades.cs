@@ -8,8 +8,21 @@ namespace BinanceTradeView
 {
     public class AllTrades
     {
+        public AllTrades()
+        {
+            Trades = new List<Trade>();
+            MarketPrices = new List<MarketPrice>();
+            OrderJobs = new List<OrderJob>();
+        }
+
         public List<Trade> Trades { get; set; }
         public List<MarketPrice> MarketPrices { get; set; }
+        public List<OrderJob> OrderJobs { get; set; }
+
+        public void Save()
+        {
+            cHelper.JsonSave("Appsettings", this);
+        }
     }
 
     public class Trade
@@ -59,5 +72,37 @@ namespace BinanceTradeView
         public decimal LowPrice { get; set; }
         public decimal QuoteVolume { get; set; }
 
+    }
+
+    public class OrderJob
+    {
+        public int Id { get; set; }
+        public int OrderId { get; set; }
+        public string Symbol { get; set; }
+        public string Side { get; set; }
+        public string Type { get; set; }
+        public decimal BasePrice { get; set; }
+        public decimal StopPrice { get; set; }
+        public decimal LimitPrice { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal PercentageOfIncrease { get; set; }
+        public bool AutoIncrease { get; set; }
+        public string Error { get; set; }
+        public int ErrorTryCount { get; set; }
+        public bool IsActive { get; set; }
+
+        public void IncreaseValues()
+        {
+            if (AutoIncrease)
+            {
+                var increaseRate = (PercentageOfIncrease / 100) + 1;
+                BasePrice *= increaseRate;
+                StopPrice *= increaseRate;
+                LimitPrice *= increaseRate;
+                Error = "";
+                ErrorTryCount = 0;
+                IsActive = true;
+            }
+        }
     }
 }

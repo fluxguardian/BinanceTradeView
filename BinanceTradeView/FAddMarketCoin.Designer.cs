@@ -156,10 +156,10 @@
             this.ClientSize = new System.Drawing.Size(223, 143);
             this.Controls.Add(this.layoutControl1);
             this.Controls.Add(this.officeNavigationBar1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FAddMarketCoin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Piyasa";
+            this.Text = "Piyasa Takibi Ekleme";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.txtExchangeCode.Properties)).EndInit();

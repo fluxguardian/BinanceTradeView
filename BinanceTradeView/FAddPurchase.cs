@@ -76,7 +76,8 @@ namespace BinanceTradeView
         {
             _trade.Amount = cHelper.ObjToDecimal(txtPurchaseAmount.Text);
             _trade.TradeCode = txtTradeCode.Text.ToUpper();
-            _trade.Id = _trade.Id > 0 ? _trade.Id : cLists.TradeList.Trades.Max(p => p.Id) + 1;
+            var Id = cLists.TradeList.Trades.Any() ? cLists.TradeList.Trades.Max(p => p.Id) + 1 : 1;
+            _trade.Id = _trade.Id > 0 ? _trade.Id : Id;
             _trade.PurchaseCode = txtPurchaseCode.Text.ToUpper();
             _trade.PurchaseDate = dePurchaseDate.DateTime.Date;
             _trade.PurchasePrice = cHelper.ObjToDecimal(txtCurrPrice.Text);
@@ -100,7 +101,7 @@ namespace BinanceTradeView
                 {
                     MarketPrice marketPrice = new MarketPrice
                     {
-                        Id = cLists.TradeList.MarketPrices.Max(p => p.Id) + 1,
+                        Id = cLists.TradeList.MarketPrices.Any() ? cLists.TradeList.MarketPrices.Max(p => p.Id) + 1 : 1,
                         ExchangeCode = _trade.PurchaseCode,
                         MarketCode = _trade.TradeCode,
                         Symbol = _trade.TradeCode + _trade.PurchaseCode,
@@ -112,6 +113,18 @@ namespace BinanceTradeView
 
             cHelper.JsonSave("Appsettings", cLists.TradeList);
             this.DialogResult = DialogResult.OK;
+        }
+
+        private void txtPurchaseCode_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+        {
+            FAllOrders fAllOrders = new FAllOrders(txtTradeCode.Text + txtPurchaseCode.Text);
+            if (fAllOrders.ShowDialog() == DialogResult.OK)
+            {
+                txtCurrPrice.Text = fAllOrders.Price.ToString("0.########");
+                txtPurchaseAmount.Text = fAllOrders.PurchaseAmount.ToString("0.########");
+                txtTotalPrice.Text = fAllOrders.TotalAmount.ToString("0.########");
+                dePurchaseDate.EditValue = fAllOrders.PurchaseDate;
+            }
         }
     }
 }

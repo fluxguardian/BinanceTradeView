@@ -27,6 +27,7 @@ namespace BinanceTradeView
             btnBtnShowHide.ImageOptions.Image = ımageCollection1.Images[Convert.ToInt32(CUtils.ShowValues)];
             
             GetAppsettings();
+            Agent.StartService();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -37,55 +38,78 @@ namespace BinanceTradeView
 
         public void GetMarketCoins()
         {
-            lcgMarket.Clear();
-
-            lcMarket.BeginUpdate();
-            foreach (var market in cLists.TradeList.MarketPrices)
+            try
             {
-                UCMarketBoard marketBoard = new UCMarketBoard();
-                marketBoard.MarketPriceValues = market;
-                LayoutControlItem item = lcgMarket.AddItem();
-                item.TextVisible = false;
-                item.Control = marketBoard;
+                lcgMarket.Clear();
+
+                lcMarket.BeginUpdate();
+                foreach (var market in cLists.TradeList.MarketPrices)
+                {
+                    UCMarketBoard marketBoard = new UCMarketBoard();
+                    marketBoard.MarketPriceValues = market;
+                    LayoutControlItem item = lcgMarket.AddItem();
+                    item.TextVisible = false;
+                    item.Control = marketBoard;
+                }
+                lcMarket.EndUpdate();
             }
-            lcMarket.EndUpdate();
+            catch
+            {
+            }
         }
 
         public void GetTickerCoins()
         {
-            lcgTicker.Clear();
-
-            lcgTotal.Clear();
-
-            lcTicker.BeginUpdate();
-            lcTotal.BeginUpdate();
-
-            foreach (var trade in cLists.TradeList.Trades)
+            try
             {
-                UCTickerBoard tickerBoard = new UCTickerBoard();
-                tickerBoard.TradeValues = trade;
-                LayoutControlItem item = lcgTicker.AddItem();
-                item.TextVisible = false;
-                item.Control = tickerBoard;
-            }
-            lcTicker.EndUpdate();
+                lcgTicker.Clear();
 
-            foreach (var code in (from x in cLists.TradeList.Trades select x.PurchaseCode).Distinct().ToList())
-            {
-                UCTotalBoard totalBoard = new UCTotalBoard { Anchor = (AnchorStyles.Left | AnchorStyles.Right) };
-                totalBoard.TradeCode = code;
-                LayoutControlItem item = lcgTotal.AddItem();
-                item.TextVisible = false;
-                item.Control = totalBoard;
+                lcgTotal.Clear();
+
+                lcTicker.BeginUpdate();
+                lcTotal.BeginUpdate();
+
+                foreach (var trade in cLists.TradeList.Trades)
+                {
+                    UCTickerBoard tickerBoard = new UCTickerBoard();
+                    tickerBoard.TradeValues = trade;
+                    LayoutControlItem item = lcgTicker.AddItem();
+                    item.TextVisible = false;
+                    item.Control = tickerBoard;
+                }
+                lcTicker.EndUpdate();
+
+                foreach (var code in (from x in cLists.TradeList.Trades select x.PurchaseCode).Distinct().ToList())
+                {
+                    UCTotalBoard totalBoard = new UCTotalBoard { Anchor = (AnchorStyles.Left | AnchorStyles.Right) };
+                    totalBoard.TradeCode = code;
+                    LayoutControlItem item = lcgTotal.AddItem();
+                    item.TextVisible = false;
+                    item.Control = totalBoard;
+                }
+                lcTotal.EndUpdate();
             }
-            lcTotal.EndUpdate();
+            catch 
+            {
+                
+            }
         }
 
         public void GetAppsettings()
         {
-            cLists.TradeList = JsonConvert.DeserializeObject<AllTrades>(File.ReadAllText(Directory.GetCurrentDirectory() + "/Appsettings.json"));
-            GetMarketCoins();
-            GetTickerCoins();
+            if (File.Exists(Directory.GetCurrentDirectory() + "/Appsettings.json"))
+            {
+                cLists.TradeList = JsonConvert.DeserializeObject<AllTrades>(File.ReadAllText(Directory.GetCurrentDirectory() + "/Appsettings.json")) ?? new AllTrades();
+
+                GetMarketCoins();
+                GetTickerCoins();
+            }
+            else
+            {
+                cLists.TradeList = new AllTrades();
+                cLists.TradeList.Save();
+                GetAppsettings();
+            }
         }
 
         private async void GetTradeValues()
@@ -139,7 +163,8 @@ namespace BinanceTradeView
 
         private void barBtnStopLimit_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-
+            FLimitForm fLimit = new FLimitForm();
+            fLimit.ShowDialog();
         }
 
         private void btnBtnShowHide_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)

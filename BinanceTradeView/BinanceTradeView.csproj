@@ -58,7 +58,10 @@
     <Reference Include="DevExpress.Utils.v17.1" />
     <Reference Include="DevExpress.XtraBars.v17.1, Version=17.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraEditors.v17.1" />
+    <Reference Include="DevExpress.XtraGrid.v17.1, Version=17.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraLayout.v17.1, Version=17.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPrinting.v17.1, Version=17.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -84,6 +87,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agent.cs" />
     <Compile Include="AllTrades.cs" />
     <Compile Include="Binance\cBinance.cs" />
     <Compile Include="Binance\BinanceClass.cs" />
@@ -102,11 +106,29 @@
     <Compile Include="FAddPurchase.Designer.cs">
       <DependentUpon>FAddPurchase.cs</DependentUpon>
     </Compile>
+    <Compile Include="FAllOrders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FAllOrders.Designer.cs">
+      <DependentUpon>FAllOrders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FLimitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FLimitForm.Designer.cs">
+      <DependentUpon>FLimitForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FMain.Designer.cs">
       <DependentUpon>FMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FStopLimitAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FStopLimitAdd.Designer.cs">
+      <DependentUpon>FStopLimitAdd.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,8 +161,17 @@
     <EmbeddedResource Include="FAddPurchase.resx">
       <DependentUpon>FAddPurchase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FAllOrders.resx">
+      <DependentUpon>FAllOrders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FLimitForm.resx">
+      <DependentUpon>FLimitForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FMain.resx">
       <DependentUpon>FMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FStopLimitAdd.resx">
+      <DependentUpon>FStopLimitAdd.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
